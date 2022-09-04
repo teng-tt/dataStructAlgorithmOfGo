@@ -44,7 +44,7 @@ func PreOrder(tree *TreeNode) {
 		return
 	}
 	// 先打印根节点
-	fmt.Println(tree.Data, " ")
+	fmt.Printf("%s-", tree.Data)
 	// 在打印左子树
 	PreOrder(tree.Left)
 	// 最后打印右子树
@@ -59,7 +59,7 @@ func MidOrder(tree *TreeNode) {
 	// 先打印左子树
 	MidOrder(tree.Left)
 	// 在打印根节点
-	fmt.Println(tree.Data, " ")
+	fmt.Printf("%s-", tree.Data)
 	// 最后打印右子树
 	MidOrder(tree.Right)
 }
@@ -74,7 +74,7 @@ func PostOrder(tree *TreeNode) {
 	// 在打印右子树
 	PostOrder(tree.Right)
 	// 最后打印根节点
-	fmt.Println(tree.Data, " ")
+	fmt.Printf("%s-", tree.Data)
 }
 
 // 测试

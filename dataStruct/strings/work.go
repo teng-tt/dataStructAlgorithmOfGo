@@ -57,15 +57,33 @@ func main() {
 
 	fmt.Println(isStrSub(sub, src))
 	s := "the sky is blue"
-	var c []string
-	for _, v := range s {
-		c = append(c, string(v))
-	}
 	fmt.Println(fblsit(4))
+	reverseStr(s)
 
 }
 
 
 func sum (num int) int {
 	return sum(num-1) + num
+}
+
+// 字符串反转 "the sky is blue" >> "blue is sky the"
+func reverseStr(srcStr string)  {
+	var stack []string
+	targetStr := ""
+
+	for _, v := range srcStr{
+		if v != ' ' {
+			targetStr = targetStr + string(v)
+		}else {
+			stack = append(stack, targetStr)
+			targetStr = ""
+		}
+	}
+	for len(stack) != 0 {
+		a := stack[len(stack)-1]
+		fmt.Printf("%s-", a)
+		stack = stack[:len(stack)-1]
+	}
+
 }

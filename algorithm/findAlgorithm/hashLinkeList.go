@@ -61,7 +61,7 @@ type KeyPairs struct {
 
 // NewHashMap 初始化hash链表，创建大小为capacity的哈希链表
 func NewHashMap(cap int) *HashMap {
-	// 默认大小为19
+	// 默认大小为16
 	defaultCap := 1 << 4
 	if cap <= defaultCap {
 		// 如果传入的大小小于默认大小，那么使用默认大小16

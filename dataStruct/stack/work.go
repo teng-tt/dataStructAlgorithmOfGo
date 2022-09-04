@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sync"
 )
 
 /*
@@ -61,73 +62,135 @@ func isLegal(s string) string{
 列如：链表为1->2->3->4->5->6, k=3 则打印321654
 */
 
-type Node struct{
+type LinkedStack struct {
+	root *LinkNodes
+	size int
+	lock sync.Mutex
+}
+type LinkNodes struct{
+	Next *LinkNodes
 	Value int
-	Next *Node
+	Lock sync.Mutex
 }
 
-// 初始化栈
-var size = 0
-var stack = new(Node)
-
 // Push 入栈
-func Push(v int) bool {
-	if stack == nil {
-		stack = &Node{v, nil}
-		size =1
-		return true
+func (stack *LinkedStack) Push(v int){
+	stack.lock.Lock()
+	defer stack.lock.Unlock()
+	if stack.root == nil {
+		stack.root = new(LinkNodes)
+		stack.root.Value = v
+	}else {
+		preNode := stack.root
+		newNode := &LinkNodes{preNode, v, sync.Mutex{}}
+		stack.root = newNode
 	}
-	temp := &Node{v, nil}
-	temp.Next = stack
-	stack = temp
-	size++
-	return true
+	stack.size = stack.size + 1
 }
 
 // Pop 出栈
-func Pop(t *Node)(int, bool) {
-	if t == nil {
-		return 0, false
+func (stack *LinkedStack) Pop() int {
+	stack.lock.Lock()
+	defer stack.lock.Unlock()
+	if stack.size == 0 {
+		return -1
 	}
-	if size == 1 {
-		size = 0
-		stack = nil
-		return t.Value, true
-	}
-	stack = stack.Next
-	size--
-	return t.Value, true
-
+	topNode := stack.root
+	v := topNode.Value
+	stack.root = topNode.Next
+	stack.size = stack.size - 1
+	return v
 }
 
-// Traveres 遍历
-func Traveres(t *Node) {
-	if size == 0 {
-		fmt.Println("空栈")
+// Size 获取栈的大小
+func (stack *LinkedStack) Size() int {
+	stack.lock.Lock()
+	defer stack.lock.Unlock()
+	return stack.size
+}
+
+// AddLinkNodes 添加LinkNodes的元素
+func (node *LinkNodes) AddLinkNodes(v int) *LinkNodes {
+	node.Lock.Lock()
+	defer node.Lock.Unlock()
+	if node == nil {
+		node = &LinkNodes{nil, v, sync.Mutex{}}
+		return node
+	}
+	for node.Next != nil {
+		node = node.Next
+	}
+	node.Next = &LinkNodes{nil, v, sync.Mutex{}}
+	return node
+}
+
+// GetLinkNodesLen 获取LinkNodes的大小
+func (node *LinkNodes) GetLinkNodesLen() int {
+	node.Lock.Lock()
+	defer node.Lock.Unlock()
+	n := 0
+	for node != nil {
+		n++
+		node = node.Next
+	}
+	return n
+}
+
+// GetIndexNodeValue 获取LinkNodes指定节点值
+func (node *LinkNodes) GetIndexNodeValue(n int) int {
+	node.Lock.Lock()
+	defer node.Lock.Unlock()
+	if node == nil {
+		return 0
+	}
+	for i := 0; i < n; i++{
+		node = node.Next
+	}
+	return node.Value
+}
+
+// Traverse 遍历链表
+func (node *LinkNodes) Traverse() {
+	node.Lock.Lock()
+	defer node.Lock.Unlock()
+	if node == nil {
+		fmt.Println("-> 空链表!")
 		return
 	}
-	for t != nil {
-		fmt.Printf("%d ->", t.Value)
-		t = t.Next
+	for node != nil {
+		fmt.Printf("%d ->", node.Value)
+		node = node.Next
 	}
 	fmt.Println()
 }
 
-// 添加结点
-func addNode(t *Node, v int) int {
-	if t == nil {
-		t = &Node{v, nil}
-		return 0
+
+
+func raveress(node *LinkNodes, count int) *LinkedStack {
+	var newStack *LinkedStack
+	var resultStack *LinkedStack
+	lenth := node.GetLinkNodesLen()
+	n := 0
+	for i := 0; i < lenth; i++{
+		// 按指定的反转个数入栈
+		fmt.Println(lenth)
+		newStack.Push(node.GetIndexNodeValue(i))
+		n++
+		// 判断标记数是否等于指定反转个数，不等于继续入栈，等于出栈
+		if n < count {
+			continue
+		}else {
+			// 入栈个数大于指定的反转个数，出栈
+			for j := 0; j < count; j++ {
+				pop := newStack.Pop()
+				// 出栈元素追加到存储翻转后元素的新切片
+				resultStack.Push(pop)
+			}
+			n = 0
+		}
 	}
-	if v == t.Value {
-		fmt.Println("结点已存在", v)
-		return -1
-	}
-	if t.Next == nil {
-		t.Next = &Node{v, nil}
-		return -2
-	}
-	return addNode(t.Next, v)
+	// 返回按指定个数翻转后的新切片
+	return resultStack
 }
 
 
@@ -136,4 +199,11 @@ func main() {
 	s1 := "{[(]}"
 	fmt.Println(isLegal(s))
 	fmt.Println(isLegal(s1))
+	node := new(LinkNodes)
+	for i := 1; i <= 6; i++ {
+		node.AddLinkNodes(i)
+	}
+	node.Traverse()
+	newNod := raveress(node, 3)
+	fmt.Println(newNod)
 }
