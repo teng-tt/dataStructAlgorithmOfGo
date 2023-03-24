@@ -5,23 +5,23 @@ import "fmt"
 // 输入a = [1, 2, 3, 4, 5],输出[5, 4, 3, 2, 1]
 // 方法一 时间复杂度是O(n) + O(n) 也就是O(n)，空间复杂度是O(n)
 func s1_1() {
-	a := []int{1,2,3,4,5}
+	a := []int{1, 2, 3, 4, 5}
 	b := make([]int, 5)
-	for i := 0; i < len(a); i++{
+	for i := 0; i < len(a); i++ {
 		b[i] = a[i]
 	}
 	// 利用b的逆序索引顺序实现，把a正序索引值的数据赋值
-	for j := 0; j < len(a); j++{
+	for j := 0; j < len(a); j++ {
 		b[len(a)-j-1] = a[j]
 	}
 	fmt.Printf("%v\n", b)
 }
 
-func s1_2(){
-	a := []int{1,2,3,4,5}
+func s1_2() {
+	a := []int{1, 2, 3, 4, 5}
 	tmp := 0
 	// len(a)/2 因为一个数组只需要比较1/2次就可以出结果
-	for i := 0; i < len(a)/2; i++{
+	for i := 0; i < len(a)/2; i++ {
 		// 保存正序遍历的临时值
 		tmp = a[i]
 		// 最后一个赋值给第一个
@@ -32,10 +32,10 @@ func s1_2(){
 	fmt.Printf("%v\n", a)
 }
 
-//在一个数组中找出出现次数最多的那个元素的值
-//例如：输入数组a = [1, 2, 3, 4, 5, 5, 6]
+// 在一个数组中找出出现次数最多的那个元素的值
+// 例如：输入数组a = [1, 2, 3, 4, 5, 5, 6]
 func numCount() {
-	a := []int{1,2,3,4,5,5,6,6,6,2,2,2,2}
+	a := []int{1, 2, 3, 4, 5, 5, 6, 6, 6, 2, 2, 2, 2}
 	b := map[int]int{}
 	// o(n)
 	for _, value := range a {
@@ -51,7 +51,7 @@ func numCount() {
 		}
 	}
 	// o(n) + o(n) = o(n)
-	fmt.Println(maxKey, ":",b[maxKey])
+	fmt.Println(maxKey, ":", b[maxKey])
 }
 
 // 求阶乘常规递归算法，使用栈保存，计算过程先进后出，需要消耗大量的栈空间，如果没有
@@ -105,10 +105,10 @@ func binarySearch(array []int, target, left, right int) int {
 	// 如果相等，返回找到了
 	if target == middleNum {
 		return mid
-	}else if target > middleNum {
+	} else if target > middleNum {
 		// 中间值比目标值还小，从右边区间开始查找
 		return binarySearch(array, target, mid+1, right)
-	}else {
+	} else {
 		// 中间值比目标值还大，从左边边区间开始查找
 		return binarySearch(array, target, 0, mid-1)
 	}
@@ -126,14 +126,14 @@ func binarySerach2(array []int, target, l, r int) int {
 			return -1
 		}
 		// 从中间开始查找
-		mid := (tempr+templ) / 2
+		mid := (tempr + templ) / 2
 		midNum := array[mid]
 		if target == midNum {
 			return mid // 找到了
-		}else if target > midNum {
+		} else if target > midNum {
 			// 中间的数比目标还小，从右边找
 			templ = mid + 1
-		}else {
+		} else {
 			// 中间的数比目标还大，从左边找
 			tempr = mid - 1
 		}
@@ -154,9 +154,3 @@ func main() {
 	result = binarySerach2(array, target, 0, len(array)-1)
 	fmt.Println(target, result)
 }
-
-
-
-
-
-

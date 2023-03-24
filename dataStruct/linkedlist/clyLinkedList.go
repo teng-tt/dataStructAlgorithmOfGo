@@ -3,13 +3,14 @@ package main
 import (
 	"fmt"
 )
+
 // 循环链表
 
 // 定义循环链表
 type clyNode struct {
 	value int
-	pre *clyNode
-	next *clyNode
+	pre   *clyNode
+	next  *clyNode
 }
 
 // 初始化空的链表
@@ -31,7 +32,7 @@ func New(n int) *clyNode {
 	c := new(clyNode)
 	p := c
 	// 循环添加空节点
-	for i :=0; i < n; i++ {
+	for i := 0; i < n; i++ {
 		p.next = &clyNode{pre: p}
 		p = p.next
 	}
@@ -67,9 +68,9 @@ func (c *clyNode) Move(n int) *clyNode {
 	if c.next == nil {
 		return nil
 	}
-	switch  {
+	switch {
 	case n < 0:
-		for ; n < 0; n++{
+		for ; n < 0; n++ {
 			c = c.pre
 		}
 	case n > 0:
@@ -100,6 +101,7 @@ func (c *clyNode) Link(s *clyNode) *clyNode {
 func LinkNewTest() {
 	// 第一个节点
 	r := &clyNode{value: -1}
+	r = r.init()
 	// 链接新的五个节点
 	r.Link(&clyNode{value: 1})
 	r.Link(&clyNode{value: 2})
@@ -119,7 +121,6 @@ func LinkNewTest() {
 		}
 	}
 }
-
 
 func main() {
 	LinkNewTest()

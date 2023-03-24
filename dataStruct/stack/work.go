@@ -15,20 +15,20 @@ import (
 func isLeft(c string) int {
 	if c == "{" || c == "(" || c == "[" {
 		return 1
-	}else {
+	} else {
 		return 2
 	}
 }
 
 func isPair(p, curr string) int {
-	if p == "{" && curr == "}" ||  p == "(" && curr == ")" ||  p == "[" && curr == "]" {
+	if p == "{" && curr == "}" || p == "(" && curr == ")" || p == "[" && curr == "]" {
 		return 1
-	}else {
+	} else {
 		return 0
 	}
 }
 
-func isLegal(s string) string{
+func isLegal(s string) string {
 	var stack []string
 	for i := 0; i < len(s); i++ {
 		currs := s[i]
@@ -36,7 +36,7 @@ func isLegal(s string) string{
 		if isLeft(curr) == 1 {
 			// 入栈
 			stack = append(stack, curr)
-		}else {
+		} else {
 			if len(stack) == 0 {
 				return "非法"
 			}
@@ -50,9 +50,40 @@ func isLegal(s string) string{
 	}
 	if len(stack) == 0 {
 		return "合法"
-	}else {
+	} else {
 		return "非法"
 	}
+}
+
+func IsLegalByStack(str string) bool {
+	stack := make([]string, 0)
+
+	for i := 0; i < len(str); i++ {
+		val := string(str[i])
+		// 左括号，入栈
+		switch val {
+		case "{":
+			stack = append(stack, "}")
+		case "[":
+			stack = append(stack, "]")
+		case "(":
+			stack = append(stack, ")")
+		}
+		// 还没遍历完，栈就没元素了，栈为空，说明没有匹配到相应的左边元素
+		if len(stack) == 0 {
+			return false
+		}
+		// 右括号且与栈顶元素相等，出栈
+		if len(stack) > 0 && val == stack[len(stack)-1] {
+			stack = stack[:len(stack)-1]
+		}
+	}
+	// 遍历完毕，栈内元素为空，说明都匹配消除了
+	if len(stack) == 0 {
+		return true
+	}
+	return false
+
 }
 
 /*
@@ -67,20 +98,20 @@ type LinkedStack struct {
 	size int
 	lock sync.Mutex
 }
-type LinkNodes struct{
-	Next *LinkNodes
+type LinkNodes struct {
+	Next  *LinkNodes
 	Value int
-	Lock sync.Mutex
+	Lock  sync.Mutex
 }
 
 // Push 入栈
-func (stack *LinkedStack) Push(v int){
+func (stack *LinkedStack) Push(v int) {
 	stack.lock.Lock()
 	defer stack.lock.Unlock()
 	if stack.root == nil {
 		stack.root = new(LinkNodes)
 		stack.root.Value = v
-	}else {
+	} else {
 		preNode := stack.root
 		newNode := &LinkNodes{preNode, v, sync.Mutex{}}
 		stack.root = newNode
@@ -143,7 +174,7 @@ func (node *LinkNodes) GetIndexNodeValue(n int) int {
 	if node == nil {
 		return 0
 	}
-	for i := 0; i < n; i++{
+	for i := 0; i < n; i++ {
 		node = node.Next
 	}
 	return node.Value
@@ -164,14 +195,12 @@ func (node *LinkNodes) Traverse() {
 	fmt.Println()
 }
 
-
-
 func raveress(node *LinkNodes, count int) *LinkedStack {
 	var newStack *LinkedStack
 	var resultStack *LinkedStack
 	lenth := node.GetLinkNodesLen()
 	n := 0
-	for i := 0; i < lenth; i++{
+	for i := 0; i < lenth; i++ {
 		// 按指定的反转个数入栈
 		fmt.Println(lenth)
 		newStack.Push(node.GetIndexNodeValue(i))
@@ -179,7 +208,7 @@ func raveress(node *LinkNodes, count int) *LinkedStack {
 		// 判断标记数是否等于指定反转个数，不等于继续入栈，等于出栈
 		if n < count {
 			continue
-		}else {
+		} else {
 			// 入栈个数大于指定的反转个数，出栈
 			for j := 0; j < count; j++ {
 				pop := newStack.Pop()
@@ -193,12 +222,11 @@ func raveress(node *LinkNodes, count int) *LinkedStack {
 	return resultStack
 }
 
-
 func main() {
 	s := "{[()()]}"
 	s1 := "{[(]}"
-	fmt.Println(isLegal(s))
-	fmt.Println(isLegal(s1))
+	fmt.Println(IsLegalByStack(s))
+	fmt.Println(IsLegalByStack(s1))
 	node := new(LinkNodes)
 	for i := 1; i <= 6; i++ {
 		node.AddLinkNodes(i)

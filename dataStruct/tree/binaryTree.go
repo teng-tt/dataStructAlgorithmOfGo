@@ -24,8 +24,8 @@ import "fmt"
 // 数组也可以用来表示二叉树，一般用来表示完全二叉树
 // 二叉树结构体
 type TreeNode struct {
-	Data string // 结点用来存放数据
-	Left *TreeNode // 左子树
+	Data  string    // 结点用来存放数据
+	Left  *TreeNode // 左子树
 	Right *TreeNode // 右子树
 }
 
@@ -33,8 +33,8 @@ type TreeNode struct {
 遍历二叉树
 构建一棵树后，我们希望遍历它，有四种遍历方法：
 先序遍历：先访问根节点，再访问左子树，最后访问右子树。
-后序遍历：先访问左子树，再访问右子树，最后访问根节点。
 中序遍历：先访问左子树，再访问根节点，最后访问右子树。
+后序遍历：先访问左子树，再访问右子树，最后访问根节点。
 层次遍历：每一层从左到右访问每一个节点
 */
 
@@ -70,7 +70,7 @@ func PostOrder(tree *TreeNode) {
 		return
 	}
 	// 先打印左子树
-	PreOrder(tree.Left)
+	PostOrder(tree.Left)
 	// 在打印右子树
 	PostOrder(tree.Right)
 	// 最后打印根节点
@@ -93,20 +93,3 @@ func main() {
 	fmt.Println("\n后序排序")
 	PostOrder(t)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

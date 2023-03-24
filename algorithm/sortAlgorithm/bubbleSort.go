@@ -16,10 +16,10 @@ import "fmt"
 // BubbleSort 常规
 func BubbleSort(num []int) {
 	// 计算切片长度
-	lenth := len(num)
-	for i := 0; i < lenth-1; i++ {
-		// lenth-i-1 优化，减少无效遍历，因为每排序一次，就可以少一次
-		for j := 0; j < (lenth - i - 1); j++ {
+	length := len(num) - 1
+	for i := 0; i < length; i++ {
+		// length-i 优化，减少无效遍历，因为每排序一次，就可以少一次
+		for j := 0; j < (length - i); j++ {
 			if num[j] > num[j+1] {
 				// 从小到大排序，把大的元素放右边
 				num[j], num[j+1] = num[j+1], num[j]
@@ -34,10 +34,10 @@ func BubbleSortFlag(num []int) {
 	// 标志
 	var Flag = false
 	// 计算切片长度
-	lenth := len(num)
-	for i := 0; i < lenth-1; i++ {
-		// lenth-i-1 优化，减少无效遍历，因为每排序一次，就可以少一次
-		for j := 0; j < (lenth - i - 1); j++ {
+	length := len(num) - 1
+	for i := 0; i < length; i++ {
+		// length-i 优化，减少无效遍历，因为每排序一次，就可以少一次
+		for j := 0; j < (length - i); j++ {
 			if num[j] > num[j+1] {
 				// 从小到大排序，把大的元素放右边
 				num[j], num[j+1] = num[j+1], num[j]
