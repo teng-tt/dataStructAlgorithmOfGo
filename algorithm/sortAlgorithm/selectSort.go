@@ -23,8 +23,8 @@ func SelectSort(num []int) {
 	// 进行N-1轮次迭代
 	for i := 0; i < lenth-1; i++ {
 		minValueIndex := i // 最小值索引
-		minValue := num[i] 	// 最小值
-		for j := i+1; j < lenth; j++ {
+		minValue := num[i] // 最小值
+		for j := i + 1; j < lenth; j++ {
 			// 获取最小值，比最小还小就是新的最小值，和最小值下标
 			if num[j] < minValue {
 				minValue = num[j]
@@ -43,13 +43,13 @@ func SelectSort(num []int) {
 // 可以优化算法，使得复杂度减少一半，每一轮，除了找最小数之外，还找最大数
 // 然后分别和前面和后面的元素交换，这样循环次数减少一半
 func SelectGoodSort(num []int) {
-	lenth := len(num)   // 获取数组长度
+	lenth := len(num) // 获取数组长度
 	// 只循环一半
-	for i := 0; i < lenth/2 ; i++ {
-		minIndex := i	// 最小值下标
-		maxIndex := i	// 最大值下标
+	for i := 0; i < lenth/2; i++ {
+		minIndex := i // 最小值下标
+		maxIndex := i // 最大值下标
 		// 在这一轮迭代中要找到最大值和最小值的下标
-		for j := i+1; j < lenth; j++ {
+		for j := i + 1; j < lenth; j++ {
 			// 找到最大值下标
 			if num[j] > num[maxIndex] {
 				maxIndex = j // 这一轮这个是大的，直接 continue
@@ -66,21 +66,20 @@ func SelectGoodSort(num []int) {
 			// 先将最大值和最尾的元素交换
 			num[lenth-i-1], num[maxIndex] = num[maxIndex], num[lenth-i-1]
 			// 然后最小的元素放在最开头
-			num[i],num[minIndex] = num[minIndex], num[i]
+			num[i], num[minIndex] = num[minIndex], num[i]
 
-		}else if maxIndex == i && minIndex == lenth-i-1 {
+		} else if maxIndex == i && minIndex == lenth-i-1 {
 			// 如果最大值在开头，最小值在结尾，直接交换
-			num[maxIndex],num[minIndex] = num[minIndex], num[maxIndex]
+			num[maxIndex], num[minIndex] = num[minIndex], num[maxIndex]
 
-		}else {
+		} else {
 			// 否则先将最小值放在开头，再将最大值放在结尾
-			num[i],num[minIndex] = num[minIndex], num[i]
+			num[i], num[minIndex] = num[minIndex], num[i]
 			num[lenth-i-1], num[maxIndex] = num[maxIndex], num[lenth-i-1]
 		}
 
 	}
 }
-
 
 func main() {
 	// 测试
